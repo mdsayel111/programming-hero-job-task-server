@@ -5,7 +5,6 @@ model User {
   email     String   @unique
   username  String?
   name      String?
-  posts     Post[]
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
