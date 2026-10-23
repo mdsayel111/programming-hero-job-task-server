@@ -1,11 +1,29 @@
 // use prisma-8
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?
-  name      String?
+  id        Int               @id @default(autoincrement())
+  name      String
+  email     String            @unique
+  password  String
+  role      String            @default("STUDENT")
   createdAt TimestamptzString @default(now())
   updatedAt temporal.updatedAtString()
 }
 
+model Submission {
+  id          Int               @id @default(autoincrement())
+  projectName String
+  repoUrl     String
+  liveLink    String
+  description String
+  status      String            @default("PENDING")
+  feedback    String?
+  studentId   Int
+  student     User              @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  createdAt   TimestamptzString @default(now())
+  updatedAt   temporal.updatedAtString()
+
+  @@unique([studentId, repoUrl])
+  @@index([studentId])
+  @@index([status])
+}
